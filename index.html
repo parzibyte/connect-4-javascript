@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/all.min.css">
     <title>Connect 4 by parzibyte</title>
+    <style>
+    
+    td{
+        background-color: #638CFF;
+        border: 0px !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -29,7 +36,6 @@
                 <tbody>
                     <tr v-for="row in board">
                         <td v-for="cell in row">
-                            {{cell}}
                             <img class="img-fluid" :src="cellImage(cell)" alt="">
                         </td>
                     </tr>
