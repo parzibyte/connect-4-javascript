@@ -8,28 +8,32 @@
     <link rel="stylesheet" href="css/all.min.css">
     <title>Connect 4 by parzibyte</title>
     <style>
-    
-    td{
-        background-color: #638CFF;
-        border: 0px !important;
-    }
+        td {
+            background-color: #638CFF;
+            border: 0px !important;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid" id="app">
-        <div class="row">
+    <div class="container text-center" id="app">
+        <div class="row justify-content-center">
             <div class="col-12">
                 <h1>Connect 4 by parzibyte</h1>
-                {{board}}
+                <div class="alert alert-info">
+                    <strong>Current player: </strong> {{currentPlayer === PLAYER_1 ? 'Player 1' : 'Player 2'}}
+                    <br>
+                    <img :src="cellImage(currentPlayer)" alt="" class="img-fluid" style="max-width: 70px;">
+                </div>
             </div>
         </div>
-        <div class="table-responsive col-12 col-md-4">
+        <div class="table-responsive col-12 mx-auto">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th v-for="i in COLUMNS">
-                            <button @click="makeMove(i)" class="btn btn-success">Make move here&nbsp;<i class="fa fa-arrow-down"></i></button>
+                            <button @click="makeMove(i)" class="btn btn-success">Make move here&nbsp;<i
+                                    class="fa fa-arrow-down"></i></button>
                         </th>
                     </tr>
                 </thead>
