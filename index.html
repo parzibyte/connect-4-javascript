@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <title>Connect 4 by parzibyte</title>
+</head>
+
+<body>
+    <div class="container-fluid" id="app">
+        <div class="row">
+            <div class="col-12">
+                <h1>Connect 4 by parzibyte</h1>
+                {{board}}
+            </div>
+        </div>
+        <div class="table-responsive col-12 col-md-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th v-for="i in COLUMNS">
+                            <button @click="makeMove(i)" class="btn btn-success">Make move here&nbsp;<i class="fa fa-arrow-down"></i></button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="row in board">
+                        <td v-for="cell in row">
+                            {{cell}}
+                            <img class="img-fluid" :src="cellImage(cell)" alt="">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="vue.js"></script>
+    <script src="connect4.js"></script>
+</body>
+
+</html>
