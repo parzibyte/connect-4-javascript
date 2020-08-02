@@ -11,6 +11,10 @@
         td {
             background-color: #638CFF;
             border: 0px !important;
+            padding: 5px !important;
+        }
+        .img-player{
+            max-width: 100px;
         }
     </style>
 </head>
@@ -20,6 +24,8 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <h1>Connect 4 by parzibyte</h1>
+                <a href="https://parzibyte.me" target="_blank" class="btn btn-success mb-2 btn-lg">Help & Support <i
+                        class="fa fa-hands-helping"></i></a>
                 <div class="alert alert-info">
                     <strong>Current player: </strong> {{currentPlayer === PLAYER_1 ? 'Player 1' : 'Player 2'}}
                     <br>
@@ -32,15 +38,15 @@
                 <thead>
                     <tr>
                         <th v-for="i in COLUMNS">
-                            <button :disabled="!canPlay" @click="makeMove(i)" class="btn btn-success">Make move here&nbsp;<i
-                                    class="fa fa-arrow-down"></i></button>
+                            <button :disabled="!canPlay" @click="makeMove(i)" class="btn btn-warning">Make move
+                                here&nbsp;<i class="fa fa-arrow-down"></i></button>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in board">
                         <td v-for="cell in row">
-                            <img class="img-fluid" :src="cellImage(cell)" alt="">
+                            <img class="img-fluid img-player" :src="cellImage(cell)" alt="">
                         </td>
                     </tr>
                 </tbody>

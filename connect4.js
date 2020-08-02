@@ -1,5 +1,5 @@
-const COLUMNS = 8,
-    ROWS = 4,
+const COLUMNS = 7,
+    ROWS = 6,
     EMPTY_SPACE = " ",
     PLAYER_1 = "o",
     PLAYER_2 = "x",
@@ -19,7 +19,12 @@ new Vue({
         isCpuPlaying: true,
         canPlay: false,
     }),
-    mounted() {
+    async mounted() {
+        await Swal.fire(
+            'Connect 4 game',
+            'Brought to you by parzibyte - https://parzibyte.me',
+            'info'
+        );
         this.resetGame();
     },
     methods: {
