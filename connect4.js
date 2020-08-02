@@ -167,7 +167,7 @@ new Vue({
             const columnIndex = columnNumber - 1;
             const firstEmptyRow = this.getFirstEmptyRow(columnIndex, this.board);
             if (firstEmptyRow === -1) {
-                alert("Cannot make move here, it is full");
+                Swal.fire('Cannot put here, it is full');
                 return;
             }
             Vue.set(this.board[firstEmptyRow], columnIndex, this.currentPlayer);
