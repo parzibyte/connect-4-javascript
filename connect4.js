@@ -237,6 +237,8 @@ new Vue({
             }
             const cpuStats = this.getColumnWithHigherScore(this.currentPlayer, this.board);
             const adversaryStats = this.getColumnWithHigherScore(adversary, this.board);
+            console.log({ adversaryStats });
+            console.log({ cpuStats });
             if (adversaryStats.higherCount > cpuStats.higherCount) {
                 console.log("CPU chooses take adversary highest score");
                 // We take the adversary's best move if it is higher than CPU's
@@ -281,26 +283,29 @@ new Vue({
                 const firstEmptyRow = this.getFirstEmptyRow(i, boardClone);
                 if (firstEmptyRow !== -1) {
                     boardClone[firstEmptyRow][i] = player;
-                    let count = 0;
-                    count = this.countUp(i, firstEmptyRow, player, boardClone);
-                    if (count > returnObject.higherCount) {
-                        returnObject.higherCount = count;
-                        returnObject.columnIndex = i;
-                    }
-                    count = this.countRight(i, firstEmptyRow, player, boardClone);
-                    if (count > returnObject.higherCount) {
-                        returnObject.higherCount = count;
-                        returnObject.columnIndex = i;
-                    }
-                    count = this.countUpRight(i, firstEmptyRow, player, boardClone);
-                    if (count > returnObject.higherCount) {
-                        returnObject.higherCount = count;
-                        returnObject.columnIndex = i;
-                    }
-                    count = this.countDownRight(i, firstEmptyRow, player, boardClone);
-                    if (count > returnObject.higherCount) {
-                        returnObject.higherCount = count;
-                        returnObject.columnIndex = i;
+                    const firstFilledRow = this.getFirstFilledRow(i, boardClone);
+                    if (firstFilledRow !== -1) {
+                        let count = 0;
+                        count = this.countUp(i, firstFilledRow, player, boardClone);
+                        if (count > returnObject.higherCount) {
+                            returnObject.higherCount = count;
+                            returnObject.columnIndex = i;
+                        }
+                        count = this.countRight(i, firstFilledRow, player, boardClone);
+                        if (count > returnObject.higherCount) {
+                            returnObject.higherCount = count;
+                            returnObject.columnIndex = i;
+                        }
+                        count = this.countUpRight(i, firstFilledRow, player, boardClone);
+                        if (count > returnObject.higherCount) {
+                            returnObject.higherCount = count;
+                            returnObject.columnIndex = i;
+                        }
+                        count = this.countDownRight(i, firstFilledRow, player, boardClone);
+                        if (count > returnObject.higherCount) {
+                            returnObject.higherCount = count;
+                            returnObject.columnIndex = i;
+                        }
                     }
                 }
             }
@@ -334,6 +339,14 @@ new Vue({
         },
         async showTie() {
             await Swal.fire('Tie');
+        },
+        getFirstFilledRow(columnIndex, board) {
+            for (let i = ROWS - 1; i >= 0; i--) {
+                if (board[i][columnIndex] !== EMPTY_SPACE) {
+                    return i;
+                }
+            }
+            return -1;
         },
         getFirstEmptyRow(columnIndex, board) {
             for (let i = ROWS - 1; i >= 0; i--) {
