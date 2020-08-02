@@ -17,15 +17,32 @@ new Vue({
         EMPTY_SPACE,
         currentPlayer: null,
         isCpuPlaying: true,
+        canPlay: false,
     }),
     mounted() {
         this.resetGame();
     },
     methods: {
-        resetGame() {
+        async resetGame() {
+            await this.askUserGameMode();
             this.fillBoard();
             this.selectPlayer();
             this.makeCpuMove();
+        },
+        async askUserGameMode() {
+            this.canPlay = false;
+            const result = await Swal.fire({
+                title: 'Choose game mode',
+                text: "Do you want to play against another player or against CPU?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#fdbf9c',
+                cancelButtonColor: '#4A42F3',
+                cancelButtonText: 'Me Vs another player',
+                confirmButtonText: 'Me Vs CPU'
+            });
+            this.canPlay = true;
+            this.isCpuPlaying = !!result.value;
         },
         countUp(x, y, player, board) {
             let startY = (y - CONNECT >= 0) ? y - CONNECT + 1 : 0;
@@ -146,7 +163,7 @@ new Vue({
                 return "img/empty.png"
             }
         },
-        makeMove(columnNumber) {
+        async makeMove(columnNumber) {
             const columnIndex = columnNumber - 1;
             const firstEmptyRow = this.getFirstEmptyRow(columnIndex, this.board);
             if (firstEmptyRow === -1) {
@@ -154,7 +171,8 @@ new Vue({
                 return;
             }
             Vue.set(this.board[firstEmptyRow], columnIndex, this.currentPlayer);
-            if (!this.checkGameStatus()) {
+            const status = await this.checkGameStatus();
+            if (!status) {
                 this.togglePlayer();
                 this.makeCpuMove();
             } else {
@@ -162,30 +180,42 @@ new Vue({
             }
         },
         // Returns true if there's a winner or a tie. False otherwise
-        checkGameStatus() {
+        async checkGameStatus() {
             if (this.isWinner(this.currentPlayer, this.board)) {
-                this.showWinner();
+                await this.showWinner();
                 return true;
             } else if (this.isTie(this.board)) {
-                this.showTie();
+                await this.showTie();
                 return true;
             }
             return false;
         },
-        askUserForAnotherMatch() {
-            if (confirm("do you want another match?")) {
+        async askUserForAnotherMatch() {
+            this.canPlay = false;
+            const result = await Swal.fire({
+                title: 'Play again?',
+                text: "Do you want to play again?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#fdbf9c',
+                cancelButtonColor: '#4A42F3',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes'
+            });
+            if (result.value) {
                 this.resetGame();
             }
         },
-        makeCpuMove() {
+        async makeCpuMove() {
             if (!this.isCpuPlaying || this.currentPlayer !== PLAYER_CPU) {
                 return;
             }
             const bestColumn = this.getBestColumnForCpu();
             const firstEmptyRow = this.getFirstEmptyRow(bestColumn, this.board);
-            console.log({firstEmptyRow});
+            console.log({ firstEmptyRow });
             Vue.set(this.board[firstEmptyRow], bestColumn, this.currentPlayer);
-            if (!this.checkGameStatus()) {
+            const status = await this.checkGameStatus();
+            if (!status) {
                 this.togglePlayer();
             } else {
                 this.askUserForAnotherMatch();
@@ -295,15 +325,15 @@ new Vue({
             }
             return -1;
         },
-        showWinner() {
+        async showWinner() {
             if (this.currentPlayer === PLAYER_1) {
-                alert("The winner is player 1");
+                await Swal.fire('Winner is player 1');
             } else {
-                alert("The winner is player 2");
+                await Swal.fire('Winner is player 2');
             }
         },
-        showTie() {
-            alert("Tie!");
+        async showTie() {
+            await Swal.fire('Tie');
         },
         getFirstEmptyRow(columnIndex, board) {
             for (let i = ROWS - 1; i >= 0; i--) {
