@@ -21,7 +21,7 @@
             <div class="col-12">
                 <h1>Connect 4 by parzibyte</h1>
                 <div class="alert alert-info">
-                    <strong>Current player: </strong> {{currentPlayer === PLAYER_1 ? 'Player 1' : 'Player 2'}}
+                    <strong>Current player: </strong> {{currentPlayer === PLAYER_1 ? 'Player 1' : 'Player 2'}} {{currentPlayer}}
                     <br>
                     <img :src="cellImage(currentPlayer)" alt="" class="img-fluid" style="max-width: 70px;">
                 </div>

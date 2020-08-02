@@ -1,6 +1,6 @@
 const COLUMNS = 8,
     ROWS = 4,
-    EMPTY_SPACE = "XD",
+    EMPTY_SPACE = " ",
     PLAYER_1 = "o",
     PLAYER_2 = "x",
     PLAYER_CPU = PLAYER_2,
@@ -19,11 +19,14 @@ new Vue({
         isCpuPlaying: true,
     }),
     mounted() {
-        this.fillBoard();
-        this.selectPlayer();
-        this.makeCpuMove();
+        this.resetGame();
     },
     methods: {
+        resetGame() {
+            this.fillBoard();
+            this.selectPlayer();
+            this.makeCpuMove();
+        },
         countUp(x, y, player, board) {
             let startY = (y - CONNECT >= 0) ? y - CONNECT + 1 : 0;
             let counter = 0;
@@ -154,15 +157,24 @@ new Vue({
             if (!this.checkGameStatus()) {
                 this.togglePlayer();
                 this.makeCpuMove();
+            } else {
+                this.askUserForAnotherMatch();
             }
         },
         // Returns true if there's a winner or a tie. False otherwise
         checkGameStatus() {
-
             if (this.isWinner(this.currentPlayer, this.board)) {
                 this.showWinner();
+                return true;
             } else if (this.isTie(this.board)) {
                 this.showTie();
+                return true;
+            }
+            return false;
+        },
+        askUserForAnotherMatch() {
+            if (confirm("do you want another match?")) {
+                this.resetGame();
             }
         },
         makeCpuMove() {
@@ -171,9 +183,12 @@ new Vue({
             }
             const bestColumn = this.getBestColumnForCpu();
             const firstEmptyRow = this.getFirstEmptyRow(bestColumn, this.board);
+            console.log({firstEmptyRow});
             Vue.set(this.board[firstEmptyRow], bestColumn, this.currentPlayer);
             if (!this.checkGameStatus()) {
                 this.togglePlayer();
+            } else {
+                this.askUserForAnotherMatch();
             }
         },
         getBestColumnForCpu() {
@@ -198,7 +213,7 @@ new Vue({
                 return adversaryStats.columnIndex;
             } else if (cpuStats.higherCount > 1) {
                 console.log("CPU chooses higher count");
-                return cpuStats.higherCount;
+                return cpuStats.columnIndex;
             }
             const centralColumn = this.getCentralColumn(this.board);
             if (centralColumn !== -1) {
@@ -235,7 +250,7 @@ new Vue({
                 const boardClone = JSON.parse(JSON.stringify(board));
                 const firstEmptyRow = this.getFirstEmptyRow(i, boardClone);
                 if (firstEmptyRow !== -1) {
-                    boardClone[firstEmptyRow][i] = this.currentPlayer;
+                    boardClone[firstEmptyRow][i] = player;
                     let count = 0;
                     count = this.countUp(i, firstEmptyRow, player, boardClone);
                     if (count > returnObject.higherCount) {
