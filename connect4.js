@@ -263,16 +263,16 @@ new Vue({
                 console.log("Cpu chooses take adversary's victory");
                 return winnerColumnForAdversary;
             }
-            const cpuStats = this.getColumnWithHigherScore(this.currentPlayer, this.board);
-            const adversaryStats = this.getColumnWithHigherScore(adversary, this.board);
+            const cpuStats = this.getColumnWithHighestScore(this.currentPlayer, this.board);
+            const adversaryStats = this.getColumnWithHighestScore(adversary, this.board);
             console.log({ adversaryStats });
             console.log({ cpuStats });
-            if (adversaryStats.higherCount > cpuStats.higherCount) {
+            if (adversaryStats.highestCount > cpuStats.highestCount) {
                 console.log("CPU chooses take adversary highest score");
                 // We take the adversary's best move if it is higher than CPU's
                 return adversaryStats.columnIndex;
-            } else if (cpuStats.higherCount > 1) {
-                console.log("CPU chooses higher count");
+            } else if (cpuStats.highestCount > 1) {
+                console.log("CPU chooses highest count");
                 return cpuStats.columnIndex;
             }
             const centralColumn = this.getCentralColumn(this.board);
@@ -301,9 +301,9 @@ new Vue({
             }
             return -1;
         },
-        getColumnWithHigherScore(player, board) {
+        getColumnWithHighestScore(player, board) {
             const returnObject = {
-                higherCount: -1,
+                highestCount: -1,
                 columnIndex: -1,
             };
             for (let i = 0; i < COLUMNS; i++) {
@@ -315,23 +315,23 @@ new Vue({
                     if (firstFilledRow !== -1) {
                         let count = 0;
                         count = this.countUp(i, firstFilledRow, player, boardClone);
-                        if (count > returnObject.higherCount) {
-                            returnObject.higherCount = count;
+                        if (count > returnObject.highestCount) {
+                            returnObject.highestCount = count;
                             returnObject.columnIndex = i;
                         }
                         count = this.countRight(i, firstFilledRow, player, boardClone);
-                        if (count > returnObject.higherCount) {
-                            returnObject.higherCount = count;
+                        if (count > returnObject.highestCount) {
+                            returnObject.highestCount = count;
                             returnObject.columnIndex = i;
                         }
                         count = this.countUpRight(i, firstFilledRow, player, boardClone);
-                        if (count > returnObject.higherCount) {
-                            returnObject.higherCount = count;
+                        if (count > returnObject.highestCount) {
+                            returnObject.highestCount = count;
                             returnObject.columnIndex = i;
                         }
                         count = this.countDownRight(i, firstFilledRow, player, boardClone);
-                        if (count > returnObject.higherCount) {
-                            returnObject.higherCount = count;
+                        if (count > returnObject.highestCount) {
+                            returnObject.highestCount = count;
                             returnObject.columnIndex = i;
                         }
                     }
