@@ -7,7 +7,8 @@ Conecta 4 en JavaScript, HTML – Versión web
 
 Es el juego de Conecta 4 pero versión web con opción jugador contra jugador, así como  **jugador contra CPU que usa una pequeña inteligencia artificial**.
 
-A lo largo del post te mostraré cómo funciona el juego, qué tecnologías he usado, estilos, etcétera. También te mostraré cómo descargar el código fuente, pues el juego es totalmente  **gratuito y open source**. Finalmente te dejaré una demostración para jugar conecta 4 en línea.
+# Vídeo en YouTube
+[https://www.youtube.com/watch?v=a09z6WKoVHo](https://www.youtube.com/watch?v=a09z6WKoVHo)
 
 # Tutorial y demostración
 [https://parzibyte.me/blog/2020/08/05/conecta-4-javascript-html/](https://parzibyte.me/blog/2020/08/05/conecta-4-javascript-html/)
